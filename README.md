@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Visits by Countries 🌍
 
-## Getting Started
+A simple full‑stack application built with **Next.js**, **Node.js**, and **Redis**, designed to track website visits per country.
 
-First, run the development server:
+## 📋 Features
+
+- **Backend (Node.js + Redis)**
+
+  - REST API with two endpoints:
+    - `POST /visits` — updates a visit count for a given country code.
+    - `GET /visits` — retrieves all visit statistics in JSON format.
+  - Handles high load (1,000 requests per second).
+
+- **Frontend (Next.js + Tailwind CSS)**
+  - Displays a live table of country visit counts.
+  - Provides a simple input to add a visit by country code.
+  - Built with reusable components: `StatsTable`, `CountryInput`, `Header`, and `Btn`.
+
+## 🧱 Tech Stack
+
+- **Frontend:** Next.js 14, React, Tailwind CSS
+- **Backend:** Node.js, Express, Redis
+- **Deployment:** Works with Docker or local Node environment
+
+## ⚙️ Running Locally
+
+### 1. Clone the repo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/visits-by-countries.git
+cd visits-by-countries
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Start the backend
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+cd backend
+npm install
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Backend runs by default at `http://localhost:4000`.
 
-## Learn More
+### 3. Start the frontend
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Frontend runs at `http://localhost:3000`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🌐 Environment Variables
 
-## Deploy on Vercel
+Frontend expects:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+NEXT_PUBLIC_API_BASE_URL=http://localhost:4000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Backend expects:
+
+```
+REDIS_URL=redis://localhost:6379
+PORT=4000
+```
+
+## 🧩 Components Overview
+
+- **Header:** Page title and author name.
+- **CountryInput:** Input with autocomplete to add new visits.
+- **StatsTable:** Displays all countries and counts in a styled table.
+- **Btn:** Reusable button with loading and disabled states.
+
+## 📁 Project Structure
+
+```
+.
+├── backend/
+│   ├── server.js
+│   └── redis.js
+├── frontend/
+│   ├── app/
+│   │   ├── layout.jsx
+│   │   └── page.jsx
+│   ├── components/
+│   │   ├── Header.jsx
+│   │   ├── StatsTable.jsx
+│   │   ├── CountryInput.jsx
+│   │   └── Btn.jsx
+│   └── services/
+│       └── visits.service.js
+└── README.md
+```
+
+## 👨‍💻 Author
+
+Made by **Haim Kalvo**  
+Frontend Developer | JavaScript | Next.js | Node.js
+
+---
+
+© 2025 Haim Kalvo. All rights reserved.
