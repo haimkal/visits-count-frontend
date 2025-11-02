@@ -1,104 +1,133 @@
-# Visits by Countries 🌍
+# 🖥️ Visits Count Web (Next.js)
 
-A simple full‑stack application built with **Next.js**, **Node.js**, and **Redis**, designed to track website visits per country.
-
-## 📋 Features
-
-- **Backend (Node.js + Redis)**
-
-  - REST API with two endpoints:
-    - `POST /visits` — updates a visit count for a given country code.
-    - `GET /visits` — retrieves all visit statistics in JSON format.
-  - Handles high load (1,000 requests per second).
-
-- **Frontend (Next.js + Tailwind CSS)**
-  - Displays a live table of country visit counts.
-  - Provides a simple input to add a visit by country code.
-  - Built with reusable components: `StatsTable`, `CountryInput`, `Header`, and `Btn`.
-
-## 🧱 Tech Stack
-
-- **Frontend:** Next.js 14, React, Tailwind CSS
-- **Backend:** Node.js, Express, Redis
-- **Deployment:** Works with Docker or local Node environment
-
-## ⚙️ Running Locally
-
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/yourusername/visits-by-countries.git
-cd visits-by-countries
-```
-
-### 2. Start the backend
-
-```bash
-cd backend
-npm install
-npm start
-```
-
-Backend runs by default at `http://localhost:4000`.
-
-### 3. Start the frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend runs at `http://localhost:3000`.
-
-## 🌐 Environment Variables
-
-Frontend expects:
-
-```
-NEXT_PUBLIC_API_BASE_URL=http://localhost:4000
-```
-
-Backend expects:
-
-```
-REDIS_URL=redis://localhost:6379
-PORT=4000
-```
-
-## 🧩 Components Overview
-
-- **Header:** Page title and author name.
-- **CountryInput:** Input with autocomplete to add new visits.
-- **StatsTable:** Displays all countries and counts in a styled table.
-- **Btn:** Reusable button with loading and disabled states.
-
-## 📁 Project Structure
-
-```
-.
-├── backend/
-│   ├── server.js
-│   └── redis.js
-├── frontend/
-│   ├── app/
-│   │   ├── layout.jsx
-│   │   └── page.jsx
-│   ├── components/
-│   │   ├── Header.jsx
-│   │   ├── StatsTable.jsx
-│   │   ├── CountryInput.jsx
-│   │   └── Btn.jsx
-│   └── services/
-│       └── visits.service.js
-└── README.md
-```
-
-## 👨‍💻 Author
-
-Made by **Haim Kalvo**  
-Frontend Developer | JavaScript | Next.js | Node.js
+A minimal frontend for the **Visits Count API**.  
+Built with **Next.js + React + (optional) Tailwind**. Lets you increment visits by country and view aggregated stats.
 
 ---
 
-© 2025 Haim Kalvo. All rights reserved.
+## 🔌 Services
+
+- **Frontend:** http://localhost:3000
+- **Backend (required):** http://localhost:4000
+
+> Make sure the backend is running and reachable from the frontend.  
+> The frontend only talks to the API (not directly to Redis).
+
+---
+
+## 🐳 Run
+
+### 1) Clone the repo
+
+```bash
+git clone https://github.com/haimkal/visits-count-frontend.git
+```
+
+### 2) Enter folder
+
+```bash
+cd visits-count-frontend
+```
+
+### 3) Install deps
+
+```bash
+npm install
+```
+
+### 4) Configure env
+
+Create a file named **.env.local** in the project root:
+
+```env
+# URL of your backend API
+NEXT_PUBLIC_API_URL=http://localhost:4000
+```
+
+### 5) Start dev server
+
+```bash
+npm run dev
+```
+
+Frontend is now available at: **http://localhost:3000**
+
+---
+
+## 🧑‍💻 Local Development
+
+### Requirements
+
+- Node.js **v18+** (recommended v20)
+- A running backend at `NEXT_PUBLIC_API_URL` (default: `http://localhost:4000`)
+
+### Common scripts
+
+```bash
+npm run dev     # Start Next.js in dev mode
+npm run build   # Production build
+npm run start   # Start production server (after build)
+npm run lint    # Lint (if configured)
+```
+
+---
+
+## 🧩 Environment Variables
+
+| Variable              | Default                 | Description                 |
+| --------------------- | ----------------------- | --------------------------- |
+| `NEXT_PUBLIC_API_URL` | `http://localhost:4000` | Base URL of the backend API |
+
+> `NEXT_PUBLIC_*` vars are exposed to the browser—ideal for API base URLs.
+
+---
+
+## 🧱 Project Structure (example)
+
+```
+app/
+  layout.jsx         # Root layout
+  page.jsx           # Home page (renders the UI)
+components/
+  Header.jsx
+  CountryInput.jsx   # Form to submit a country code (e.g., "us")
+  StatsTable.jsx     # Displays aggregated visit counts
+lib/
+  api.js             # fetch helpers (GET /visits, POST /visits)
+public/
+styles/
+  globals.css
+package.json
+.eslintrc.*
+README.md
+```
+
+> Your exact file names may vary; adapt the example to your structure.
+
+---
+
+## 🔗 API Contract (used by the frontend)
+
+The frontend expects the backend described in your API README:
+
+- `POST /visits` — body: `{ "country": "us" }` → response: `{ "country": "us", "count": 42 }`
+- `GET /visits` — response: `{ "us": 2, "cy": 1 }`
+- `GET /health` — response: `{ "ok": true }`
+
+Configure the base URL via `NEXT_PUBLIC_API_URL`.
+
+## 🛠️ Troubleshooting
+
+- **CORS error in the browser**  
+  Ensure your backend allows the frontend origin:
+  - Backend env: `CORS_ORIGIN=http://localhost:3000` (or `*` for dev)
+- **404/Network error**  
+  Check `NEXT_PUBLIC_API_URL` is set correctly and backend is running.
+- **Port conflict on 3000**  
+  Start Next.js on a different port:
+  ```bash
+  PORT=3002 npm run dev
+  ```
+  And visit http://localhost:3002
+
+---
